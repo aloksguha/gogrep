@@ -4,7 +4,6 @@ package gogrep
 import (
 	"bytes"
 	"fmt"
-	"github.com/aloksguha/gogrep/utils"
 	"os"
 	"sync"
 	"time"
@@ -28,7 +27,6 @@ func (s *Search) Search() ([]Report, error) {
 }
 
 func(s *Search) search() ([]Report, error) {
-	fmt.Println(utils.Info("Searching '"+s.searchString+"', in file :", s.filePath))
 	file, err := os.Open(s.filePath)
 	if err!= nil {
 		return nil, err

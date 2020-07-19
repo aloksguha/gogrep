@@ -1,4 +1,3 @@
-os: osx
 language: go
 go:
   - 1.14.x
@@ -18,9 +17,9 @@ script:
 #storing build artifact to to S3 to distribute
 deploy:
   provider: s3
+  skip_cleanup: true
   access_key_id: "$AWS_ACCESS_KEY"
   secret_access_key: "$AWS_SECRET_ACCESS_KEY"
   bucket: "gogrep-prod-builds"
-  skip_cleanup: true
   acl: public_read
   local_dir: builds
