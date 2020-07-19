@@ -23,13 +23,16 @@ func NewSearch(path string, timeout int, searchstring string, noOfWorkers int) *
 }
 
 
-func (s *Search) Search() []Report {
+func (s *Search) Search() ([]Report, error) {
 	return s.search()
 }
 
-func(s *Search) search() []Report {
+func(s *Search) search() ([]Report, error) {
 	fmt.Println(utils.Info("Searching '"+s.searchString+"', in file :", s.filePath))
 	file, err := os.Open(s.filePath)
+	if err!= nil {
+		return nil, err
+	}
 	check(err)
 	defer file.Close()
 	fileInfo, _ := file.Stat()
@@ -63,31 +66,30 @@ func(s *Search) search() []Report {
 			   //fmt.Println("hi",report)
 			   resultsByWorker = append(resultsByWorker, report)
 		   }
-		   case <-time.After(time.Millisecond): {
+		   case <-time.After(time.Duration(s.timeout)*time.Second): {
 				   fmt.Println("timeout")
-			   resultsByWorker = append(resultsByWorker, Report{Status: "TIMEOUT"})
+			   resultsByWorker = append(resultsByWorker, Report{Status: STATUS(TIMEOUT)})
 		   }
 		}
 	}
 	wg.Wait() //blocks till all process finishes
 	close(masterReport)
-	return resultsByWorker
+	return resultsByWorker, nil
 }
 
 func (s *Search) searchInChunk(c chan Report, start time.Time, file *os.File, chunk chunk, id int)  {
 	defer wg.Done()
 	buffer := make([]byte, chunk.bufsize)
 	file.ReadAt(buffer, chunk.offset)
-	r := Report{id, 0, 0,0, "TIMEOUT"}
+	r := Report{id, 0, 0,0, STATUS(FAILURE)}
 
 	if bytes.Contains(buffer, [] byte(s.searchString)) {
-		r.Status = "SUCCESS"
+		r.Status = STATUS(SUCEESS)
 		r.Elapsed = time.Duration(time.Since(start))
 		r.Remaining = (time.Duration(s.timeout)* time.Second) - (time.Since(start))
 		r.ByteCnt = bytes.IndexAny(buffer, s.searchString)
 		c <- r
 	} else {
-		r.Status = "FAILURE"
 		c <- r
 	}
 }

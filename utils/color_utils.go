@@ -8,6 +8,7 @@ var (
 	Warn     = Yellow
 	Fatal    = Red
 	Input  = Magenta
+	CoTeal = Teal
 )
 
 var (

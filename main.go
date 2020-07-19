@@ -8,27 +8,27 @@ import (
 )
 
 func main() {
-	Init()
-	//argsWithProg := os.Args[1:]
-	//if len(argsWithProg) > 1 {
-	//	fmt.Println("Invalid arguments, Please refer help by ")
-	//}
-	//if len(argsWithProg) == 0 {
-	//	showInfo()
-	//}
-	//if len(argsWithProg) == 1 && argsWithProg[1] == "init" {
-	//	Init()
-	//}
-	//if len(argsWithProg) == 1 && ( argsWithProg[1] == "help" || argsWithProg[1] == "-h") {
-	//	showHelp()
-	//}
+	//Init()
+	argsWithProg := os.Args[1:]
+	if len(argsWithProg) > 1 {
+		fmt.Println("Invalid arguments, Please refer help by ")
+	}
+	if len(argsWithProg) == 0 {
+		showInfo()
+	}
+	if len(argsWithProg) == 1 && argsWithProg[0] == "init" {
+		Init()
+	}
+	if len(argsWithProg) == 1 && ( argsWithProg[0] == "help" || argsWithProg[0] == "-h") {
+		showHelp()
+	}
 
 }
 
 
 func Init(){
 	fPath := ""
-	fmt.Print(utils.InfoBlue("Please enter full path of file : (default : test_files/text.file) : "))
+	fmt.Print(utils.InfoBlue("Please enter full path of file : "))
 	if _, err := fmt.Scanf("%s", &fPath); err != nil  {
 		fPath = "test_files/text.file"
 	}
@@ -56,22 +56,27 @@ func Init(){
 	}
 	fmt.Println(utils.Input(now))
 	g:= gogrep.NewSearch(fPath,timeout,q, now)
-	PrintResult(g.Search())
+	report, err := g.Search()
+	if err != nil {
+		fmt.Println(utils.Red(err))
+	}
+	PrintResult(report)
 
 }
 
 
 func showInfo(){
-	fmt.Printf(utils.Info("%s by Alok Guha\n", os.Args[0]))
-	fmt.Printf(utils.Info("Version %s, Built: %s \n", "V 0.1", "0.1"))
+	fmt.Println(utils.Info("gogrep by Alok Guha<aloksguha@gmail.com>"))
+	fmt.Println(utils.CoTeal("Version V0.1, Built: 1.0 \n"))
 	fmt.Println(utils.Info("Usage:"))
-	fmt.Printf(utils.Info("	gogrep init \n"))
-	fmt.Printf(utils.Info("For help : 	gogrep -h \n"))
+	fmt.Printf(utils.CoTeal("	gogrep init \n"))
+	fmt.Println(utils.Info("For help :"))
+	fmt.Printf(utils.CoTeal("	gogrep -h \n"))
 	return
 }
 
 func showHelp(){
-	fmt.Printf("To start program please type: gogrep init and follow instructions\n")
+	fmt.Printf("To start program please type: 'gogrep init' and follow instructions, (use 'sudo' as prefix if accessing restricted area )\n")
 }
 
 func PrintResult(reports []gogrep.Report){
