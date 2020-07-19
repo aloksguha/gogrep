@@ -12,7 +12,7 @@ install: true
 # script always runs to completion (set +e). If we have linter issues AND a
 # failing test, we want to see both.
 script:
-  - go test -v ./gogrep  # Run all the tests with the race detector enabled
+  - go test -v ./gogrep  # Run all the tests wigit th the race detector enabled
   - mkdir builds && go build -o ./builds/
 
 #storing build artifact to to S3 to distribute
