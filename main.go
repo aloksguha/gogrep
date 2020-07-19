@@ -5,6 +5,7 @@ import (
 	"github.com/aloksguha/gogrep/gogrep"
 	"github.com/aloksguha/gogrep/utils"
 	"os"
+	"time"
 )
 
 func main() {
@@ -30,7 +31,7 @@ func Init(){
 	fPath := ""
 	fmt.Print(utils.InfoBlue("Please enter full path of file : "))
 	if _, err := fmt.Scanf("%s", &fPath); err != nil  {
-		fPath = "test_files/text.file"
+		fPath = ""
 	}
 	fmt.Println(utils.Input(fPath))
 
@@ -42,7 +43,7 @@ func Init(){
 	fmt.Println(utils.Input(q))
 
 	timeout := 60
-	fmt.Print(utils.InfoBlue("Please enter timeout (default : 60 Sec) : "))
+	fmt.Print(utils.InfoBlue("Please enter timeout in seconds (default : 60 Sec) : "))
 	if n, err := fmt.Scanf("%d", &timeout); err != nil || n != 1 {
 		timeout = 60
 	}
@@ -59,6 +60,7 @@ func Init(){
 	report, err := g.Search()
 	if err != nil {
 		fmt.Println(utils.Red(err))
+		return
 	}
 	PrintResult(report)
 
@@ -80,7 +82,9 @@ func showHelp(){
 }
 
 func PrintResult(reports []gogrep.Report){
-	fmt.Println(utils.Info(":-------------------------------: RESULT :------------------------------------:"))
+	totalByteCnt := 0
+	var duration time.Duration = 0
+	fmt.Println(utils.Info("\n\n:----------------------------------------: RESULT :---------------------------------------------------------:"))
 	for i:=0; i< len(reports); i++ {
 		report := reports[i]
 		switch report.Status {
@@ -89,6 +93,8 @@ func PrintResult(reports []gogrep.Report){
 			fmt.Print(utils.Info(" Bytes Read : ",report.ByteCnt))
 			fmt.Print(utils.Info("\t Elapsed Time : ",report.Elapsed))
 			fmt.Println(utils.Info("\t Remaining Time : ",report.Remaining))
+			totalByteCnt +=report.ByteCnt
+			duration += report.Elapsed
 		}
 		case "FAILURE":{
 			fmt.Print(utils.InfoBlue("\t Status : ",report.Status))
@@ -104,5 +110,12 @@ func PrintResult(reports []gogrep.Report){
 		}
 		}
 	}
-	fmt.Println(utils.Info(":-----------------------------------------------------------------------------:"))
+	if totalByteCnt > 0 {
+		fmt.Println(utils.Info(":------------------------------------------------------------------------------------------------------:"))
+		avgTime := int(time.Duration(duration)) / totalByteCnt
+		fmt.Println("\tAverage grep time per byte : ",time.Duration(avgTime))
+	}else{
+		fmt.Println(utils.Red("\tUnable to find entered string"))
+	}
+	fmt.Println(utils.Info(":------------------------------------------------------------------------------------------------------:"))
 }

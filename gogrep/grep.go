@@ -87,7 +87,7 @@ func (s *Search) searchInChunk(c chan Report, start time.Time, file *os.File, ch
 		r.Status = STATUS(SUCEESS)
 		r.Elapsed = time.Duration(time.Since(start))
 		r.Remaining = (time.Duration(s.timeout)* time.Second) - (time.Since(start))
-		r.ByteCnt = bytes.IndexAny(buffer, s.searchString)
+		r.ByteCnt = bytes.Index(buffer, [] byte(s.searchString))
 		c <- r
 	} else {
 		c <- r
