@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ccb00381-2402-4235-8b1b-54c3a441d4e9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gogrep/grep_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/gogrep/grep_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,5 +124,9 @@
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
     <state width="1878" height="396" key="GridCell.Tab.1.right/1920.23.1920.1057/0.23.1920.1177@0.23.1920.1177" timestamp="1594969559077" />
+    <state x="661" y="244" width="598" height="735" key="find.popup" timestamp="1595136343663">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="661" y="244" width="598" height="735" key="find.popup/0.23.1920.1177@0.23.1920.1177" timestamp="1595136343663" />
   </component>
 </project>
