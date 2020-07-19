@@ -1,0 +1,26 @@
+dist: bionic
+language: go
+go:
+  - 1.14.x
+
+# Only clone the most recent commit.
+git:
+  depth: 1
+install: true
+
+
+# script always runs to completion (set +e). If we have linter issues AND a
+# failing test, we want to see both.
+script:
+  - go test -v ./...  # Run all the tests with the race detector enabled
+  - mkdir builds && go build -o ./builds/
+
+#storing build artifact to to S3 to distribute
+deploy:
+  provider: s3
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+  bucket: "gogrep-prod-builds"
+  skip_cleanup: true
+  acl: public_read
+  local_dir: builds
