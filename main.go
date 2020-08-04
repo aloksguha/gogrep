@@ -36,9 +36,9 @@ func Init(){
 	fmt.Println(utils.Input(fPath))
 
 	q := ""
-	fmt.Print(utils.InfoBlue("Please enter search string (default : Lpfn) : "))
+	fmt.Print(utils.InfoBlue("Please enter search string (default : kola) : "))
 	if _, err := fmt.Scanf("%s", &q); err != nil  {
-		q = "Lpfn"
+		q = "kola"
 	}
 	fmt.Println(utils.Input(q))
 
