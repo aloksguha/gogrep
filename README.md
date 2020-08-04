@@ -1,5 +1,5 @@
 # Go Grep
-This gogrep utality accepts commnads-line inputs as arguments and performs the search on given file,  
+This gogrep utility accepts command-line inputs as arguments and performs the search on given file,  
 
 ## Build status
 [![Build Status](https://travis-ci.com/aloksguha/gogrep.svg?token=J8okxKGDXGAov6yy4yo7&branch=master)](https://travis-ci.com/aloksguha/gogrep)
